@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
-    "name": "Your Extension Name",
+    "name": "OneClick",
     "version": "1.0",
-    "description": "Your extension description",
+    "description": "Manual testing helper",
     "permissions": [
       "activeTab"
     ],
