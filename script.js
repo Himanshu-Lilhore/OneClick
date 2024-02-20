@@ -18,12 +18,50 @@ let colors = [
 var dropdowns = document.querySelectorAll('select');
 var count = 0;
 let holder = document.createElement("DIV");
-holder.style = "min-width: 16rem; padding: 3px; border-width: 1px; position: sticky; top: 0; right: 0; z-index: 9999;"
+holder.style = "min-width: 12rem; padding: 3px 3px 3px 16px; border-width: 1px; position: absolute; top: 0; right: 0; z-index: 9999; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(15px); box-shadow: 0 0 20px 20px rgba(0, 0, 0, 0.3);"
 let auto =  document.createElement("BUTTON")
 auto.style = "padding : 1px; border-width: 3px; display: block; margin: 8px 0px; font-weight: bold;"
 auto.textContent = 'AUTO'
 auto.addEventListener('click', ()=>{auto.style.backgroundColor = "rgb(47 192 47 / 95%)";})
 holder.appendChild(auto)
+
+// MAKING HOLDER DRAGABLE : 
+    // Flag to track whether dragging is active
+    let isDragging = false;
+    // Variables to store initial mouse position and holder position
+    let initialX;
+    let initialY;
+    let offsetX = 0;
+    let offsetY = 0;
+    // Function to handle mouse down event
+    function handleMouseDown(e) {
+        isDragging = true;
+        initialX = e.clientX - offsetX;
+        initialY = e.clientY - offsetY;
+    }
+    // Function to handle mouse move event
+    function handleMouseMove(e) {
+        if (isDragging) {
+            let newX = e.clientX - initialX;
+            let newY = e.clientY - initialY;
+            offsetX = newX;
+            offsetY = newY;
+            holder.style.transform = `translate(${newX}px, ${newY}px)`;
+        }
+    }
+    // Function to handle mouse up event
+    function handleMouseUp() {
+        isDragging = false;
+    }
+    // Add event listeners for mouse down, move, and up events
+    holder.addEventListener('mousedown', handleMouseDown);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+
+
+window.addEventListener('scroll', function() {
+    holder.style.top = window.scrollY + "px";
+});
 
 function selOA(dropdown, val){
     dropdown.value = val;
@@ -79,7 +117,8 @@ dropdowns.forEach(function(dropdown, index) {
     }
 });
 
-document.body.appendChild(holder);
+if(count > 0)
+    document.body.appendChild(holder);
 
 // Send message to the background script with the count
 chrome.runtime.sendMessage({ count: count });
