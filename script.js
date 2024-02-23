@@ -19,7 +19,7 @@ var dropdowns = document.querySelectorAll('select');
 var count = 0;
 let outerHolder = document.createElement("DIV");
 let holder = document.createElement("DIV");
-outerHolder.style = "user-select: none; overflow: hidden; min-width: 15rem; border: 0.2px solid black; position: absolute; top: 50%; right: 0; transform: translateY(-50%); z-index: 9999; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(15px);"
+outerHolder.style = "border-radius: 0.375rem; user-select: none; overflow: hidden; min-width: 15rem; border: 0.2px solid black; position: absolute; top: 50%; right: 0; transform: translateY(-50%); z-index: 9999; background-color: rgba(0, 0, 0, 0.2); backdrop-filter: blur(12px);"
 // holder.style = "min-width: 15rem; padding: 3px 3px 3px 16px; border-width: 1px; position: absolute; top: 50%; right: 0; transform: translateY(-50%); z-index: 9999; background-color: rgba(0, 0, 0, 0.3); backdrop-filter: blur(15px); box-shadow: 0 0 20px 20px rgba(0, 0, 0, 0.3);"
 holder.style = "padding: 3px 3px 3px 16px;"
 let auto =  document.createElement("BUTTON")
@@ -93,7 +93,7 @@ function updateHolderPosition() {
     // let holderHeight = holder.offsetHeight;
     let topPosition = windowHeight/2 + scrollY;
     
-    holder.style.top = topPosition + 'px';
+    outerHolder.style.top = topPosition + 'px';
 }
 
 // Update holder position when the page is scrolled
@@ -143,10 +143,10 @@ dropdowns.forEach(function(dropdown, index) {
             let divtemp = document.createElement("DIV")
             let btemp = document.createElement("BUTTON");
             btemp.textContent = (index+1) + ". " + optionText;
-            divtemp.style = "padding-left : 15px; border-width: 1px; display: block; margin: 15px 0px; width: fit-content;"
-            btemp.style = "padding: 8px 5px; border-width: 1px; font-size: 16px;"
+            divtemp.style = "overflow: hidden; border-radius: 9999px; padding: 0 0 0 20px; border: 2.5px solid black; display: block; margin: 15px 0px; width: fit-content;"
+            btemp.style = "border-radius: 9999px; padding: 8px 5px; border: 1px solid black; font-size: 16px;"
             btemp.addEventListener('click', () => {selOA(dropdown, val)});
-            btemp.addEventListener('click', () => {divtemp.style.paddingLeft = "2px"});
+            btemp.addEventListener('click', () => {divtemp.style.padding = "0 20px 0 0"; });
             divtemp.style.backgroundColor = currColor
             dropdown.style.borderColor = currColor
             divtemp.appendChild(btemp)
