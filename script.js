@@ -144,18 +144,28 @@ dropdowns.forEach(function(dropdown, index) {
             let optionText = options[i].textContent.trim().toLowerCase()
             let iniBorder = dropdown.style.border
             closeDiv.addEventListener('click', () => {dropdown.style.border = iniBorder})
-            
+            let yesNoBorWidth = '5px'
             if(optionText === 'yes'){
+                let yesColor = '#0e9808'
+                dropdown.style.borderLeftColor = yesColor
+                dropdown.style.borderLeftWidth = yesNoBorWidth
                 yesToAll.addEventListener('click', () => {selOA(dropdown, val)})
-                dropdown.style.borderLeftColor = 'lime'
-                dropdown.style.borderLeftWidth = '3px'
+                yesToAll.addEventListener('click', () => {
+                    dropdown.style.borderLeftColor = yesColor
+                    dropdown.style.borderRightColor = yesColor
+                })
                 binaryCount++
                 continue
             }
             else if(optionText === 'no'){
+                let noColor = 'red'
+                dropdown.style.borderRightColor = noColor
+                dropdown.style.borderRightWidth = yesNoBorWidth
                 noToAll.addEventListener('click', () => {selOA(dropdown, val)})
-                dropdown.style.borderRightColor = 'red'
-                dropdown.style.borderRightWidth = '3px'
+                noToAll.addEventListener('click', () => {
+                    dropdown.style.borderLeftColor = noColor
+                    dropdown.style.borderRightColor = noColor
+                })
                 continue
             }
 
@@ -192,7 +202,7 @@ dropdowns.forEach(function(dropdown, index) {
 });
 
 outerHolder.appendChild(controls)
-if(binaryCount>0){
+if(binaryCount > 0){
     let bcp = document.createElement("P")
     bcp.innerHTML = ` [${binaryCount}]`
     bcp.style = 'margin: 8px 5px 8px 0; font-weight: bold; padding: 8px 5px;'
@@ -202,7 +212,7 @@ if(binaryCount>0){
 }
 outerHolder.appendChild(holder)
 
-if(count > 0)
+if(count > 0 || binaryCount > 0)
     document.body.appendChild(outerHolder);
 
 // Send message to the background script with the count
