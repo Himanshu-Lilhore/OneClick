@@ -10,13 +10,14 @@ A browser extension designed to streamline manual testing tasks, reducing repeti
    
 3. **Customizable Interface:** The pop-up interface for generated buttons is draggable and can be closed for enhanced user convenience.
 
+4. **Single button for all Binary questions:** All the Yes-No questions present on the page (radio buttons or dropdown) can be answered with a single button.  
+
 ## How to Use:
 
-1. Check the source code & change it according to your needs.
-2. Manually load it onto your browser or Install the extension from the Edge add-on store (will be hosted soon)
-3. Navigate to the desired application or webpage where manual testing is required.
-4. Identify dropdown menus where multiple options need to be selected.
-5. Click the 'OneClick' button generated next to the dropdown to instantly select predetermined options.
+1. Download the extension from [Microsoft Add-ons](https://microsoftedge.microsoft.com/addons/detail/oneclick/glhmdjhpacepphpanbihpaidmgfbppkg) or load it onto your browser directly. 
+2. Navigate to the desired application or webpage where manual testing is required.
+3. Identify dropdown menus where multiple options need to be selected.
+4. Click the 'OneClick' button generated next to the dropdown to instantly select predetermined options.
 
 ## Motivation:
 

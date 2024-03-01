@@ -5,7 +5,8 @@ let desiredOptions = [
     'in this home',
     'unknown',
     'yes',
-    'no'
+    'no',
+    'pass'
 ]
 
 let colors = [
@@ -33,9 +34,9 @@ outerHolder.style.overflow = "hidden";
 outerHolder.style.minWidth = "15rem";
 outerHolder.style.border = "0.2px solid black";
 outerHolder.style.position = "absolute";
-outerHolder.style.top = "50%";
+outerHolder.style.bottom = '0';
 outerHolder.style.right = "0";
-outerHolder.style.transform = "translateY(-50%)";
+// outerHolder.style.transform = "translateY(-50%)";
 outerHolder.style.zIndex = "9999";
 outerHolder.style.backgroundColor = "rgba(0, 0, 0, 0.2)";
 outerHolder.style.backdropFilter = "blur(12px)";
@@ -138,7 +139,7 @@ function handleMouseMove(e) {
         const newY = e.clientY - initialY;
         offsetX = newX;
         offsetY = newY;
-        outerHolder.style.transform = `translate(${newX}px, ${newY - outerHolder.offsetHeight / 2}px)`;
+        outerHolder.style.transform = `translate(${newX}px, ${newY}px)`;
     }
 }
 // Function to handle mouse up event
@@ -152,18 +153,17 @@ window.addEventListener('mouseup', handleMouseUp);
 
 // Function to update the position of the holder element
 function updateHolderPosition() {
-    const scrollY = window.scrollY;
+    outerHolder.style.bottom = '';
     const windowHeight = window.innerHeight;
-    const topPosition = windowHeight / 2 + scrollY;
-    
+    const scrollY = window.scrollY;
+    const holderHeight = outerHolder.offsetHeight;
+    let topPosition = scrollY + windowHeight - holderHeight
     outerHolder.style.top = `${topPosition}px`;
 }
 
 // Update holder position when the page is scrolled
 window.addEventListener('scroll', updateHolderPosition);
 
-// Set initial position of the holder element
-updateHolderPosition();
 
 function selDropdownVal(dropdown, val) {
     dropdown.value = val;
@@ -189,7 +189,9 @@ dropdowns.forEach(function(dropdown, index) {
         window.getComputedStyle(dropdown).display === 'none' ||
         dropdown.disabled ||
         dropdown.hasAttribute('disabled') ||
-        dropdown.style.display === 'none'
+        dropdown.style.display === 'none' ||
+        dropdown.closest('[disabled]') !== null || //
+        dropdown.offsetWidth === 0 || dropdown.offsetHeight === 0  //
     ) return;
 
     var options = dropdown.options;
@@ -225,7 +227,6 @@ dropdowns.forEach(function(dropdown, index) {
             }
 
             let currColor = getNextColor();
-            dropdown.style.borderWidth = "2px";
 
             // MANUAL : 
             // auto select all with button :
@@ -237,22 +238,40 @@ dropdowns.forEach(function(dropdown, index) {
             btemp.textContent = (index + 1) + ". " + optionText;
             divtemp.style.overflow = "hidden";
             divtemp.style.borderRadius = "9999px";
-            divtemp.style.padding = "0 0 0 20px";
-            divtemp.style.border = "2.5px solid black";
+            divtemp.style.padding = "0 0 0 10px";
+            divtemp.style.border = "2px solid black";
             divtemp.style.display = "block";
-            divtemp.style.margin = "15px 0px";
             divtemp.style.width = "fit-content";
             btemp.style.borderRadius = "9999px";
-            btemp.style.padding = "8px 5px";
+            btemp.style.padding = "2px 5px";
             btemp.style.border = "1px solid black";
-            btemp.style.fontSize = "16px";
             btemp.addEventListener('click', () => { selDropdownVal(dropdown, val); });
-            btemp.addEventListener('click', () => { divtemp.style.padding = "0 20px 0 0"; });
+            btemp.addEventListener('click', () => { divtemp.style.padding = "0 10px 0 0"; });
             btemp.addEventListener('click', () => { divtemp.style.opacity = '50%'; });
             divtemp.style.backgroundColor = currColor;
-            dropdown.style.borderColor = currColor;
             divtemp.appendChild(btemp);
-            holder.appendChild(divtemp);
+
+
+            // Calculate position and size of dropdown
+            let rect = dropdown.getBoundingClientRect();
+            let dropdownLeft = rect.left + window.pageXOffset;
+            let dropdownTop = rect.top + window.pageYOffset;
+            let dropdownWidth = rect.width;
+
+            // Create button element
+            let button = document.createElement("div");
+            // button.textContent = optionText;
+            button.style.position = "absolute";
+            button.style.left = dropdownLeft + dropdownWidth + 10 + "px"; // Position button to the right of the dropdown with additional margin
+            button.style.top = dropdownTop + "px"; // Align button with the top of the dropdown
+            button.style.marginLeft = "10px"; // Adjust spacing as needed
+
+            button.appendChild(divtemp);
+
+            // Append button to document body
+            document.body.appendChild(button);
+
+            closeDiv.addEventListener('click', () => { button.style.display = 'none'; });
 
             count++;
             break;

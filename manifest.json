@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
     "name": "OneClick",
-    "version": "2.2",
+    "version": "3.0",
     "description": "Manual testing helper",
     "permissions": [
       "activeTab"
@@ -16,7 +16,7 @@
     "content_scripts": [
       {
         "matches": ["<all_urls>"],
-        "js": ["script.js"]
+        "js": ["scriptIntrusive.js"]
       }
     ],
     "web_accessible_resources": [
