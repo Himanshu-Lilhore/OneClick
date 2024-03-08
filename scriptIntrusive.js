@@ -23,6 +23,7 @@ const radios = document.querySelectorAll('input[type="radio"]');
 let count = 0;
 let binaryCountDropdown = 0;
 let binaryCountRadio = 0;
+let atBottom = false;
 
 const outerHolder = document.createElement("div");
 const holder = document.createElement("div");
@@ -34,9 +35,10 @@ outerHolder.style.overflow = "hidden";
 outerHolder.style.minWidth = "15rem";
 outerHolder.style.border = "0.2px solid black";
 outerHolder.style.position = "absolute";
-outerHolder.style.bottom = '0';
+outerHolder.style.top = '0';
+// outerHolder.style.bottom = '0'; atBottom = true;
 outerHolder.style.right = "0";
-// outerHolder.style.transform = "translateY(-50%)";
+// outerHolder.style.transform = "translateY(-50%)";  // middle
 outerHolder.style.zIndex = "9999";
 outerHolder.style.backgroundColor = "rgba(0, 0, 0, 0.2)";
 outerHolder.style.backdropFilter = "blur(12px)";
@@ -157,7 +159,11 @@ function updateHolderPosition() {
     const windowHeight = window.innerHeight;
     const scrollY = window.scrollY;
     const holderHeight = outerHolder.offsetHeight;
-    let topPosition = scrollY + windowHeight - holderHeight
+    let topPosition
+    if(atBottom)
+        topPosition = scrollY + windowHeight - holderHeight
+    else
+        topPosition = scrollY
     outerHolder.style.top = `${topPosition}px`;
 }
 
@@ -227,6 +233,8 @@ dropdowns.forEach(function(dropdown, index) {
             }
 
             let currColor = getNextColor();
+            dropdown.style.borderWidth = "2px";
+            dropdown.style.borderColor = currColor;
 
             // MANUAL : 
             // auto select all with button :
@@ -243,8 +251,9 @@ dropdowns.forEach(function(dropdown, index) {
             divtemp.style.display = "block";
             divtemp.style.width = "fit-content";
             btemp.style.borderRadius = "9999px";
-            btemp.style.padding = "2px 5px";
+            btemp.style.padding = "5px 5px";
             btemp.style.border = "1px solid black";
+            btemp.style.fontSize = "16px";
             btemp.addEventListener('click', () => { selDropdownVal(dropdown, val); });
             btemp.addEventListener('click', () => { divtemp.style.padding = "0 10px 0 0"; });
             btemp.addEventListener('click', () => { divtemp.style.opacity = '50%'; });

@@ -226,6 +226,7 @@ dropdowns.forEach(function(dropdown, index) {
 
             let currColor = getNextColor();
             dropdown.style.borderWidth = "2px";
+            dropdown.style.borderColor = currColor;
 
             // MANUAL : 
             // auto select all with button :
@@ -250,7 +251,6 @@ dropdowns.forEach(function(dropdown, index) {
             btemp.addEventListener('click', () => { divtemp.style.padding = "0 20px 0 0"; });
             btemp.addEventListener('click', () => { divtemp.style.opacity = '50%'; });
             divtemp.style.backgroundColor = currColor;
-            dropdown.style.borderColor = currColor;
             divtemp.appendChild(btemp);
             holder.appendChild(divtemp);
 
